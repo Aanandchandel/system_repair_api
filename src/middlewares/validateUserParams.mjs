@@ -1,9 +1,8 @@
-import userModel from '../models/userModel.mjs';
-import bcrypt from 'bcryptjs';
 
 const uservalidateparams = async (req, res, next) => {
   try {
     const { first_name, last_name, email, password } = req.body;
+    console.log(req.body);
 
     // Validation using regex
     const nameRegex = /^[a-zA-Z]{2,30}$/; // Only letters, 2-30 characters
@@ -40,10 +39,10 @@ const uservalidateparams = async (req, res, next) => {
     next()
   } catch (err) {
     console.log(err)
-    const error=new Error
-    error.statusCode=500;
-    error.status="faild to validate"
-    error.message=err
+    const error = new Error
+    error.statusCode = 500;
+    error.status = "faild to validate"
+    error.message = err
     next(error);
   }
 };

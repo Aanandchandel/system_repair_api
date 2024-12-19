@@ -1,6 +1,16 @@
 import express from "express"
 import connectDb from "./src/config/mongoDbConfig.mjs";
+import userRoutes from "./src/routes/userRoutes.mjs";
+import bodyParser from "body-parser";
+import cors from "cors";
 const app = express();
+
+
+
+// Middleware setup
+app.use(bodyParser.json()); // Parse JSON payloads
+app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded data
+app.use(cors()); // Enable CORS
 
 
 
@@ -8,6 +18,8 @@ const app = express();
 app.get("/", (req, res) => {
     res.send("hello")
 })
+
+app.use('/api', userRoutes);
 
 //connect to DB
 connectDb()
