@@ -6,7 +6,7 @@ class UserController {
   // Method for user registration
   async userRegister(req, res) {
     try {
-      const { first_name, last_name, email, password } = req.body;
+      const { first_name, last_name, email, password, phone_no } = req.body;
 
       // Check if email already exists
       const isExist = await userModel.findOne({ email });
@@ -26,6 +26,7 @@ class UserController {
         last_name,
         email,
         password: hashPassword,
+        phone_no
       });
 
       const userData = await user.save();

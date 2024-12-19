@@ -17,6 +17,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  phone_no: {
+    type: Number,
+    required: true
+  },
+  is_admin: {
+    type: Boolean,
+    default: false, // Default value is false (regular user)
+  },
 }, { timestamps: true })
 
 const userModel = mongoose.model('User', userSchema);
