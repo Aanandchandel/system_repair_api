@@ -1,37 +1,53 @@
-import userModel from ('../models/userModel.mjs');
-import bcrypt from ('bcryptjs')
+import userModel from '../models/userModel.mjs';
+import bcrypt from 'bcryptjs';
 
-const userRegister = async(req,res)=>{
-  try{
-    const {first_name,last_name,email,password} = req.body;
-    const hashPassword = await bcrypt.hash(password,10);
-    const isExist = await User.findOne({ email });
+class UserController {
+  // Method for user registration
+  async register(req, res) {
+    try {
+      const { first_name, last_name, email, password } = req.body;
 
-    if (isExist) {
-      return res.status(400).json({
+      // Check if email already exists
+      const isExist = await userModel.findOne({ email });
+      if (isExist) {
+        return res.status(400).json({
+          success: false,
+          message: 'Email already exists',
+        });
+      }
+
+      // Hash the password
+      const hashPassword = await bcrypt.hash(password, 10);
+
+      // Create and save the user
+      const user = new userModel({
+        first_name,
+        last_name,
+        email,
+        password: hashPassword,
+      });
+
+      const userData = await user.save();
+
+      // Return success response without exposing sensitive data
+      return res.status(201).json({
+        success: true,
+        message: 'User registration successful',
+        user: {
+          id: userData._id,
+          first_name: userData.first_name,
+          last_name: userData.last_name,
+          email: userData.email,
+        },
+      });
+    } catch (error) {
+      console.error('Error during user registration:', error.message);
+      return res.status(500).json({
         success: false,
-        message: 'Email already exists'
-      })
+        message: 'Internal Server Error',
+      });
     }
-
-    const user = new User({
-      first_name,
-      last_name,
-      email,
-      password:hashPassword
-    })
-
-    const userData = await user.save();
-
-    return res.status(200).json({
-      success: true,
-      message: 'User Registeration Successful';
-      user : userData
-    })
-  }catch(error){
-    return res.status(400).json({
-      success: false,
-      message: error.message
-    })
   }
 }
+
+export default new UserController();

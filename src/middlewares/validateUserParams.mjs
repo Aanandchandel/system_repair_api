@@ -1,4 +1,7 @@
-const registerValidator = () =>{
+import userModel from '../models/userModel.mjs';
+import bcrypt from 'bcryptjs';
+
+const uservalidateparams = async (req, res, next) => {
   try {
     const { first_name, last_name, email, password } = req.body;
 
@@ -34,5 +37,15 @@ const registerValidator = () =>{
         message: 'Password must be at least 8 characters long, with at least one letter and one number',
       });
     }
+    next()
+  } catch (err) {
+    console.log(err)
+    const error=new Error
+    error.statusCode=500;
+    error.status="faild to validate"
+    error.message=err
+    next(error);
+  }
+};
 
-}
+export default uservalidateparams;
