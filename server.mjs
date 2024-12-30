@@ -1,9 +1,11 @@
 import express from "express"
 import connectDb from "./src/config/mongoDbConfig.mjs";
 import userRoutes from "./src/routes/userRoutes.mjs";
+import otpRoutes from "./src/routes/otpRoutes.mjs"
 import bodyParser from "body-parser";
 import cors from "cors";
 const app = express();
+
 
 
 
@@ -20,7 +22,7 @@ app.get("/", (req, res) => {
 })
 
 app.use('/api', userRoutes);
-
+app.use("/api",otpRoutes);
 //connect to DB
 connectDb()
 const PORT = process.env.PORT || 3000
