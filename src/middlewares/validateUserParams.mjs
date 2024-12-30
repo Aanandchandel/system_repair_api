@@ -31,12 +31,12 @@ const uservalidateparams = async (req, res, next) => {
       });
     }
 
-    if (!passwordRegex.test(password)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Password must be at least 8 characters long, with at least one letter and one number',
-      });
-    }
+    // if (!passwordRegex.test(password)) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: 'Password must be at least 8 characters long, with at least one letter and one number',
+    //   });
+    // }
 
     // Validate phone number
     if (!phoneRegex.test(phone_no)) {
