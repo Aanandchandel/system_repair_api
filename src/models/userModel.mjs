@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  valid:{
+    type:Boolean,
+    required:false
+  },
   is_admin: {
     type: Boolean,
     default: false, // Default value is false (regular user)
